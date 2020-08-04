@@ -31,7 +31,7 @@ import ExampleFetchComponent from '../ExampleFetchComponent';
 const ExampleComponent: FC<{}> = () => (
   <Page theme={pageTheme.tool}>
     <Header title="Welcome to my-first-plugin!" subtitle="Optional subtitle">
-      <HeaderLabel label="Owner" value="Team X" />
+      <HeaderLabel label="Owner" value="Team Reliability" />
       <HeaderLabel label="Lifecycle" value="Alpha" />
     </Header>
     <Content>
@@ -40,9 +40,10 @@ const ExampleComponent: FC<{}> = () => (
       </ContentHeader>
       <Grid container spacing={3} direction="column">
         <Grid item>
-          <InfoCard title="Information card">
+          <InfoCard title="Information">
             <Typography variant="body1">
-              All content should be wrapped in a card like this.
+              All content should be wrapped in a card like this. This is the
+              first plugin that we build.
             </Typography>
           </InfoCard>
         </Grid>

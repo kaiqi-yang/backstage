@@ -91,7 +91,9 @@ export const DenseTable: FC<DenseTableProps> = ({ users }) => {
 
 const ExampleFetchComponent: FC<{}> = () => {
   const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('https://randomuser.me/api/?results=20');
+    const response = await fetch(
+      'https://y47riay5nd.execute-api.ap-southeast-2.amazonaws.com/test/',
+    );
     const data = await response.json();
     return data.results;
   }, []);
