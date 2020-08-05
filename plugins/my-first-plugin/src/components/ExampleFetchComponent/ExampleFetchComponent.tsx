@@ -16,8 +16,9 @@
 
 import React, { FC } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Table, TableColumn, Progress } from '@backstage/core';
+import { Table, TableColumn, Progress, InfoCard } from '@backstage/core';
 import Alert from '@material-ui/lab/Alert';
+import { Typography } from '@material-ui/core';
 import { useAsync } from 'react-use';
 
 const useStyles = makeStyles({
@@ -27,6 +28,11 @@ const useStyles = makeStyles({
     borderRadius: '50%',
   },
 });
+
+type Monitoring = {
+  latency: number;
+  logo: string;
+};
 
 type User = {
   gender: string; // "male"
@@ -90,12 +96,14 @@ export const DenseTable: FC<DenseTableProps> = ({ users }) => {
 };
 
 const ExampleFetchComponent: FC<{}> = () => {
-  const { value, loading, error } = useAsync(async (): Promise<User[]> => {
+  const classes = useStyles();
+
+  const { value, loading, error } = useAsync(async (): Promise<Monitoring> => {
     const response = await fetch(
       'https://y47riay5nd.execute-api.ap-southeast-2.amazonaws.com/test/',
     );
     const data = await response.json();
-    return data.results;
+    return data;
   }, []);
 
   if (loading) {
@@ -104,7 +112,16 @@ const ExampleFetchComponent: FC<{}> = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable users={value || []} />;
+  // return <DenseTable users={value || []} />;
+  return (
+    <InfoCard title="Main Site Status">
+      <img src={value?.logo} className={classes.avatar} alt="logo" />
+      <Typography variant="body1">
+        The latency to www.afterpay.com is currently {value?.latency.toString()}{' '}
+        ms
+      </Typography>
+    </InfoCard>
+  );
 };
 
 export default ExampleFetchComponent;
