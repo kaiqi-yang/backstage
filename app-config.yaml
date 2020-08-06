@@ -24,7 +24,7 @@ techdocs:
   storageUrl: https://techdocs-mock-sites.storage.googleapis.com
 
 sentry:
-  organization: spotify
+  organization: touchcorp-ul
 
 auth:
   providers:
