@@ -28,3 +28,4 @@ export { plugin as GraphiQL } from '@backstage/plugin-graphiql';
 export { plugin as GithubActions } from '@backstage/plugin-github-actions';
 export { plugin as Rollbar } from '@backstage/plugin-rollbar';
 export { plugin as MyFirstPlugin } from '@backstage/plugin-my-first-plugin';
+export { plugin as Buildkite } from '@backstage/plugin-buildkite';
