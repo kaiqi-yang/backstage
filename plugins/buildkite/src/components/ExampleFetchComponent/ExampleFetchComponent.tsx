@@ -29,25 +29,29 @@ const useStyles = makeStyles({
 });
 
 type User = {
-  gender: string; // "male"
-  name: {
-    title: string; // "Mr",
-    first: string; // "Duane",
-    last: string; // "Reed"
-  };
-  location: object; // {street: {number: 5060, name: "Hickory Creek Dr"}, city: "Albany", state: "New South Wales",…}
-  email: string; // "duane.reed@example.com"
-  login: object; // {uuid: "4b785022-9a23-4ab9-8a23-cb3fb43969a9", username: "blackdog796", password: "patch",…}
-  dob: object; // {date: "1983-06-22T12:30:23.016Z", age: 37}
-  registered: object; // {date: "2006-06-13T18:48:28.037Z", age: 14}
-  phone: string; // "07-2154-5651"
-  cell: string; // "0405-592-879"
-  id: {
-    name: string; // "TFN",
-    value: string; // "796260432"
-  };
-  picture: { medium: string }; // {medium: "https://randomuser.me/api/portraits/men/95.jpg",…}
-  nat: string; // "AU"
+
+    id: string;
+    url: string;
+    web_url: string;
+    number: number;
+    state: string;
+    blocked: string;
+    message: string;
+    commit: string;
+    branch: string;
+    tag: string;
+    env: object;
+    source: string;
+    creator: object;
+    created_at: string;
+    scheduled_at: string;
+    started_at: string;
+    finished_at: string;
+    meta_data: object;
+    pull_request: string;
+    rebuilt_from: string;
+    pipeline: object;
+    jobs: object[]
 };
 
 type DenseTableProps = {
@@ -58,24 +62,18 @@ export const DenseTable: FC<DenseTableProps> = ({ users }) => {
   const classes = useStyles();
 
   const columns: TableColumn[] = [
-    { title: 'Avatar', field: 'avatar' },
-    { title: 'Name', field: 'name' },
-    { title: 'Email', field: 'email' },
-    { title: 'Nationality', field: 'nationality' },
+    { title: 'BuildNumber', field: 'number' },
+    { title: 'Message', field: 'message' },
+    { title: 'Status', field: 'state' },
+    { title: 'Creator', field: 'creator' },
   ];
 
   const data = users.map(user => {
     return {
-      avatar: (
-        <img
-          src={user.picture.medium}
-          className={classes.avatar}
-          alt={user.name.first}
-        />
-      ),
-      name: `${user.name.first} ${user.name.last}`,
-      email: user.email,
-      nationality: user.nat,
+      number: (<a href={user.web_url}>{user.number}</a>),
+      message: user.message,
+      state: user.state,
+      creator: user.branch
     };
   });
 
@@ -91,9 +89,10 @@ export const DenseTable: FC<DenseTableProps> = ({ users }) => {
 
 const ExampleFetchComponent: FC<{}> = () => {
   const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    const response = await fetch('https://randomuser.me/api/?results=20');
+    console.log("here")
+    const response = await fetch('https://ypm9jrkyna.execute-api.ap-southeast-2.amazonaws.com/test');
     const data = await response.json();
-    return data.results;
+    return data;
   }, []);
 
   if (loading) {
