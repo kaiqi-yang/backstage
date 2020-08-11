@@ -15,52 +15,53 @@
  */
 
 import React, { FC } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Table, TableColumn, Progress } from '@backstage/core';
 import Alert from '@material-ui/lab/Alert';
 import { useAsync } from 'react-use';
 
-const useStyles = makeStyles({
-  avatar: {
-    height: 32,
-    width: 32,
-    borderRadius: '50%',
-  },
-});
-
 type User = {
+  id: string;
+  name: string;
+  email: string;
+  avatar_url: string;
+  created_at: string;
+  //   "id": "6d09fc45-722d-47bc-9ed9-a51bbd27ff82",
+  //   "name": "Nicholas Krul",
+  //   "email": "nicholas.krul@afterpaytouch.com",
+  //   "avatar_url": "https://www.gravatar.com/avatar/270fbaff97e310c971878c23acb01741",
+  //   "created_at": "2019-01-24T04:53:17.736Z"
+};
 
-    id: string;
-    url: string;
-    web_url: string;
-    number: number;
-    state: string;
-    blocked: string;
-    message: string;
-    commit: string;
-    branch: string;
-    tag: string;
-    env: object;
-    source: string;
-    creator: object;
-    created_at: string;
-    scheduled_at: string;
-    started_at: string;
-    finished_at: string;
-    meta_data: object;
-    pull_request: string;
-    rebuilt_from: string;
-    pipeline: object;
-    jobs: object[]
+type Build = {
+  id: string;
+  url: string;
+  web_url: string;
+  number: number;
+  state: string;
+  blocked: string;
+  message: string;
+  commit: string;
+  branch: string;
+  tag: string;
+  env: object;
+  source: string;
+  creator: User;
+  created_at: string;
+  scheduled_at: string;
+  started_at: string;
+  finished_at: string;
+  meta_data: object;
+  pull_request: string;
+  rebuilt_from: string;
+  pipeline: object;
+  jobs: object[];
 };
 
 type DenseTableProps = {
-  users: User[];
+  builds: Build[];
 };
 
-export const DenseTable: FC<DenseTableProps> = ({ users }) => {
-  const classes = useStyles();
-
+export const DenseTable: FC<DenseTableProps> = ({ builds }) => {
   const columns: TableColumn[] = [
     { title: 'BuildNumber', field: 'number' },
     { title: 'Message', field: 'message' },
@@ -68,12 +69,12 @@ export const DenseTable: FC<DenseTableProps> = ({ users }) => {
     { title: 'Creator', field: 'creator' },
   ];
 
-  const data = users.map(user => {
+  const data = builds.map(build => {
     return {
-      number: (<a href={user.web_url}>{user.number}</a>),
-      message: user.message,
-      state: user.state,
-      creator: user.branch
+      number: <a href={build.web_url}>{build.number}</a>,
+      message: build.message,
+      state: build.state,
+      creator: build?.creator?.name,
     };
   });
 
@@ -88,9 +89,10 @@ export const DenseTable: FC<DenseTableProps> = ({ users }) => {
 };
 
 const ExampleFetchComponent: FC<{}> = () => {
-  const { value, loading, error } = useAsync(async (): Promise<User[]> => {
-    console.log("here")
-    const response = await fetch('https://ypm9jrkyna.execute-api.ap-southeast-2.amazonaws.com/test');
+  const { value, loading, error } = useAsync(async (): Promise<Build[]> => {
+    const response = await fetch(
+      'https://ypm9jrkyna.execute-api.ap-southeast-2.amazonaws.com/test',
+    );
     const data = await response.json();
     return data;
   }, []);
@@ -101,7 +103,7 @@ const ExampleFetchComponent: FC<{}> = () => {
     return <Alert severity="error">{error.message}</Alert>;
   }
 
-  return <DenseTable users={value || []} />;
+  return <DenseTable builds={value || []} />;
 };
 
 export default ExampleFetchComponent;
