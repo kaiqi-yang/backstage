@@ -15,3 +15,4 @@
  */
 
 export { plugin } from './plugin';
+export { default as ExampleFetchComponent } from './components/ExampleFetchComponent/ExampleFetchComponent';

@@ -61,12 +61,13 @@ type DenseTableProps = {
   builds: Build[];
 };
 
-export const DenseTable: FC<DenseTableProps> = ({ builds }) => {
+const DenseTable: FC<DenseTableProps> = ({ builds }) => {
   const columns: TableColumn[] = [
-    { title: 'BuildNumber', field: 'number' },
+    { title: '#', field: 'number' },
     { title: 'Message', field: 'message' },
     { title: 'Status', field: 'state' },
     { title: 'Creator', field: 'creator' },
+    { title: 'Created At(UTC)', field: 'created_at' },
   ];
 
   const data = builds.map(build => {
@@ -75,12 +76,13 @@ export const DenseTable: FC<DenseTableProps> = ({ builds }) => {
       message: build.message,
       state: build.state,
       creator: build?.creator?.name,
+      created_at: build?.created_at,
     };
   });
 
   return (
     <Table
-      title="Example User List (fetching data from randomuser.me)"
+      title="Recent builds from deploy-omega-paylater-core-containers pipeline"
       options={{ search: false, paging: false }}
       columns={columns}
       data={data}
@@ -91,12 +93,12 @@ export const DenseTable: FC<DenseTableProps> = ({ builds }) => {
 const ExampleFetchComponent: FC<{}> = () => {
   const { value, loading, error } = useAsync(async (): Promise<Build[]> => {
     const response = await fetch(
-      'https://api.buildkite.com/v2/organizations/afterpay-paylater/pipelines/deploy-psi-paylater-core-containers/builds?branch=master',
+      'https://api.buildkite.com/v2/organizations/afterpay-paylater/pipelines/deploy-omega-paylater-core-containers/builds?branch=master&page=1&per_page=10',
       {
         headers: {
-          "Authorization": "Bearer <>"
-        }
-      }
+          Authorization: 'Bearer <>',
+        },
+      },
     );
     const data = await response.json();
     return data;

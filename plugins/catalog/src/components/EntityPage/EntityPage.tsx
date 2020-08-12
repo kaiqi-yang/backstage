@@ -28,6 +28,7 @@ import {
   useApi,
 } from '@backstage/core';
 import { SentryIssuesWidget } from '@backstage/plugin-sentry';
+import { ExampleFetchComponent } from '@backstage/plugin-buildkite';
 import { Widget as GithubActionsWidget } from '@backstage/plugin-github-actions';
 import { Grid, Box } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
@@ -193,6 +194,14 @@ export const EntityPage: FC<{}> = () => {
                   statsFor="24h"
                 />
               </Grid>
+
+              <Grid item sm={12}>
+                <ExampleFetchComponent
+                // sentryProjectId="afterpay-core"
+                // statsFor="24h"
+                />
+              </Grid>
+
               {entity.metadata?.annotations?.[
                 'backstage.io/github-actions-id'
               ] && (
