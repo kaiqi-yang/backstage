@@ -91,7 +91,12 @@ export const DenseTable: FC<DenseTableProps> = ({ builds }) => {
 const ExampleFetchComponent: FC<{}> = () => {
   const { value, loading, error } = useAsync(async (): Promise<Build[]> => {
     const response = await fetch(
-      'https://ypm9jrkyna.execute-api.ap-southeast-2.amazonaws.com/test',
+      'https://api.buildkite.com/v2/organizations/afterpay-paylater/pipelines/deploy-psi-paylater-core-containers/builds?branch=master',
+      {
+        headers: {
+          "Authorization": "Bearer <>"
+        }
+      }
     );
     const data = await response.json();
     return data;
