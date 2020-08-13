@@ -93,7 +93,7 @@ const DenseTable: FC<DenseTableProps> = ({ builds }) => {
 const ExampleFetchComponent: FC<{}> = () => {
   const { value, loading, error } = useAsync(async (): Promise<Build[]> => {
     const response = await fetch(
-      'https://api.buildkite.com/v2/organizations/afterpay-paylater/pipelines/deploy-omega-paylater-core-containers/builds?branch=master&page=1&per_page=10',
+      'https://api.buildkite.com/v2/organizations/afterpay-paylater/pipelines/deploy-beta-paylater-core-containers/builds?branch=master&page=1&per_page=10',
       {
         headers: {
           Authorization: 'Bearer <>',
